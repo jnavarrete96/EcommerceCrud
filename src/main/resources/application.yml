@@ -10,3 +10,6 @@ spring:
 logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+nasa:
+  api-key: IDWFmjLbD9f1iR8BBu3C5UzBVv4VfMcD5QfJ8avg
