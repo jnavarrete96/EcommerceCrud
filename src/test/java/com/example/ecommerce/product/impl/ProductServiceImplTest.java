@@ -142,4 +142,28 @@ class ProductServiceImplTest {
             productService.getProductById("P001");
         });
     }
+
+    @Test
+    void testDeleteProductByIdSuccess() {
+        when(productRepository.findByProductId("P001")).thenReturn(Optional.of(productEntity));
+        productService.deleteProductById("P001");
+
+        verify(productRepository, times(1)).delete(productEntity);
+    }
+
+    @Test
+    void testDeleteProductByIdNotFound() {
+        when(productRepository.findByProductId("P002")).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            productService.deleteProductById("P002");
+        });
+    }
+
+    @Test
+    void testDeleteProductByIdGeneralError() {
+        when(productRepository.findByProductId("P001")).thenThrow(new GeneralException("Database error"));
+        assertThrows(GeneralException.class, () -> {
+            productService.deleteProductById("P001");
+        });
+    }
 }
