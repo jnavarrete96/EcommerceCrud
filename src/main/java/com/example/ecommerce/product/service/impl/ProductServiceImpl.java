@@ -54,11 +54,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getProductById(String productId) {
         try {
-            ProductEntity product = productRepository.findByProductId(productId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found."));
+            ProductEntity product = findProductByProductId(productId);
             return productMapper.mapToProductResponse(product);
         }catch (GeneralException e){
             throw new GeneralException("Error getting product: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteProductById(String productId) {
+        try {
+            ProductEntity product = findProductByProductId(productId);
+            productRepository.delete(product);
+        }catch (GeneralException e){
+            throw new GeneralException("Error getting product: " + e.getMessage());
+        }
+    }
+
+    private ProductEntity findProductByProductId(String productId){
+        return productRepository.findByProductId(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found."));
     }
 }

@@ -9,4 +9,5 @@ public interface ProductService {
     void createProduct(ProductRequest productRequest);
     List<ProductResponse> getAllProducts();
     ProductResponse getProductById(String productId);
+    void deleteProductById(String productId);
 }
