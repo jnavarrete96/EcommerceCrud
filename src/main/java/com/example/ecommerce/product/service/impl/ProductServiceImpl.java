@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
             product.setUpdatedAt(LocalDateTime.now());
             productRepository.save(product);
         }catch(GeneralException e){
-            throw new GeneralException("Error while creating product: " + e.getMessage(), e);
+            throw new GeneralException("Error while creating product: " + e.getMessage());
         }
     }
 }
