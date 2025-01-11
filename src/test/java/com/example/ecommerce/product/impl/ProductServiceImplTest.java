@@ -166,4 +166,31 @@ class ProductServiceImplTest {
             productService.deleteProductById("P001");
         });
     }
+
+    @Test
+    void testUpdateProductSuccess() {
+        when(productRepository.findByProductId("P001")).thenReturn(Optional.of(productEntity));
+        doNothing().when(productMapper).updateProductFromDto(any(ProductRequest.class), any(ProductEntity.class));
+        when(productRepository.save(any(ProductEntity.class))).thenReturn(productEntity);
+
+        productService.updateProduct("P001", productRequest);
+
+        verify(productRepository, times(1)).save(any(ProductEntity.class));
+    }
+
+    @Test
+    void testUpdateProductNotFound() {
+        when(productRepository.findByProductId("P001")).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            productService.updateProduct("P001", productRequest);
+        });
+    }
+
+    @Test
+    void testUpdateProductGeneralError(){
+        when(productRepository.findByProductId("P001")).thenThrow(new GeneralException("Database error"));
+        assertThrows(GeneralException.class, () -> {
+            productService.updateProduct("P001", productRequest);
+        });
+    }
 }
