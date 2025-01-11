@@ -71,6 +71,18 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public void updateProduct(String productId, ProductRequest productRequest) {
+        try {
+            ProductEntity product = findProductByProductId(productId);
+            productMapper.updateProductFromDto(productRequest,product);
+            product.setUpdatedAt(LocalDateTime.now());
+            productRepository.save(product);
+        } catch (GeneralException e) {
+            throw new GeneralException("Error updating product: " + e.getMessage());
+        }
+    }
+
     private ProductEntity findProductByProductId(String productId){
         return productRepository.findByProductId(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found."));
