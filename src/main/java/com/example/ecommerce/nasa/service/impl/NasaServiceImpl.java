@@ -41,6 +41,5 @@ public class NasaServiceImpl implements NasaService {
         }catch (IOException e){
             throw new GeneralException("Error getting astronomical photo: " + e.getMessage());
         }
-
     }
 }
